@@ -16,21 +16,24 @@ class mrv(object):
         time.sleep(1)
         assert self.ser.inWaiting()
         input_data = self.ser.read(self.ser.inWaiting())
-        if b'In-Reach' in input_data:
+        print(input_data)
+        if b'In-Reach:' in input_data:
             return
 
         # Login
         assert b'Username' in input_data, input_data
-        self.ser.write(b'Admn\r\n')
+        self.ser.write(b"Admn\r\n")
         time.sleep(1)
-        self.ser.write(b'admn\r\n')
+        self.ser.write(b"admn\r\n")
         time.sleep(1)
         input_data = self.ser.read(self.ser.inWaiting())
-        assert b'In-Reach' in input_data
+        print(input_data)
+        assert b'In-Reach:' in input_data
 
     def command(self, command):
         self.ser.write(command+b'\r\n')
         time.sleep(1)
+        print(self.ser.read(self.ser.inWaiting()))
 
 
 ser = mrv()
